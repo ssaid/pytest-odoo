@@ -107,7 +107,7 @@ def enable_odoo_test_flag():
     odoo.tools.config['test_enable'] = False
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def env():
     dbname = odoo.tests.common.get_db_name()
     try:
