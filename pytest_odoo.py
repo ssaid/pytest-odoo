@@ -118,6 +118,7 @@ def env():
     uid = odoo.SUPERUSER_ID
     yield odoo.api.Environment(cr, uid, {})
     cr.rollback()
+    cr.close()
 
 # Original code of xmo-odoo:
 # https://github.com/odoo-dev/odoo/commit/95a131b7f4eebc6e2c623f936283153d62f9e70f
@@ -205,6 +206,6 @@ class OdooTestPackage(_pytest.python.Package, OdooTestModule):
 
 def pytest_pycollect_makemodule(path, parent):
     if path.basename == "__init__.py":
-        return OdooTestPackage(path, parent)
+        return OdooTestPackage.from_parent(parent=parent, fspath=path)
     else:
-        return OdooTestModule(path, parent)
+        return OdooTestModule.from_parent(parent=parent, fspath=path)
